@@ -21,11 +21,13 @@ class student:
         self.gladless += 5
         self.progress -= 0.1
         self.money -= 1
+        print("money =", self.money)
     def to_work(self):
         print("time to work")
         self.progress += 2
         self.gladless -= 2
         self.money += 5
+        print("money =", self.money)
     def is_alive(self):
         if self.progress < -5:
             print("Cast out")

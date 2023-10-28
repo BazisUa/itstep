@@ -1,23 +1,32 @@
-# import requests
-# import inspect
-#
+import requests
+import inspect
+import sys
+
+print(sys.executable)
+print(sys.version)
+print(sys.platform)
+
 # print(inspect.ismodule(requests))
 # print(inspect.isclass(requests.session))
 # print(inspect.isfunction(requests.get))
 #
 #
 
-data = "string"
-
-# def fun():
-#     pass
-
+# data = "string"
+#
+# dir()
+#
+# # def fun():
+# #     pass
+#
+# # for method in dir(data):
+# #     print(method)
+#
+# startLetter = input("Input start letter: ")
+#
 # for method in dir(data):
-#     print(method)
-
-for method in dir(data):
-    if method.startswith("s"):
-        print(method)
+#     if method.startswith(startLetter.lower()):
+#         print(method)
 
 # print(getattr(data, "reverse", None))
 # print(getattr(data, "index", None))

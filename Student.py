@@ -4,7 +4,7 @@ class student:
     print("Hi, I'm a student")
     def __init__(self, name):
         self.name = name
-        self.gladless = 50
+        self.gladness = 50
         self.progress = 0
         self.money = 0
         self.alive = True
@@ -12,27 +12,27 @@ class student:
     def to_study(self):
         print("time to study")
         self.progress += 0.12
-        self.gladless -= 3
+        self.gladness -= 3
     def to_sleep(self):
         print("time to sleep")
-        self.gladless += 3
+        self.gladness += 3
     def to_chill(self):
         print("time to rest")
-        self.gladless += 5
+        self.gladness += 5
         self.progress -= 0.1
         self.money -= 1
         print("money =", self.money)
     def to_work(self):
         print("time to work")
         self.progress += 2
-        self.gladless -= 2
+        self.gladness -= 2
         self.money += 5
         print("money =", self.money)
     def is_alive(self):
         if self.progress < -5:
             print("Cast out")
             self.alive = False
-        elif self.gladless <= 0:
+        elif self.gladness <= 0:
             print("Depression...")
             self.alive = False
         elif self.progress > 5:
@@ -43,7 +43,7 @@ class student:
             self.alive = False
 
     def end_of_day(self):
-        print(f"gladless = {self.gladless}")
+        print(f"gladless = {self.gladness}")
         print(f"progress = {round(self.progress)}")
 
     def live(self, day):

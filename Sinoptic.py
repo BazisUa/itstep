@@ -25,18 +25,14 @@ cur = connection.cursor()
 now = datetime.now()
 d1 = now.strftime("%d/%m/%Y %H:%M:%S")
 city = ("Черкаси")
-start = str(input("Для початку роботи оновленя Бази Даних напишіть start :"))
-def data() -> object:
-    print(f"Погодна база міста {city} була оновлена.")
-    cur.execute("DELETE FROM sinoptic where rowid=1;")
-    cur.execute(f"INSERT INTO sinoptic (temperature) VALUES ('{temp_norm_num}');")
-    cur.execute(f"UPDATE sinoptic SET date='{d1}' where rowid=1;")
-    cur.execute(f"UPDATE sinoptic SET city='{city}' where rowid=1;")
 
-if start == 'start':
-    while True:
-        data()
-        sleep(10)
+
+print(f"Погодна база міста {city} була оновлена.")
+cur.execute("DELETE FROM sinoptic where rowid=1;")
+cur.execute(f"INSERT INTO sinoptic (temperature) VALUES ('{temp_norm_num}');")
+cur.execute(f"UPDATE sinoptic SET date='{d1}' where rowid=1;")
+cur.execute(f"UPDATE sinoptic SET city='{city}' where rowid=1;")
+
 
 
 

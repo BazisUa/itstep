@@ -1,6 +1,13 @@
 import requests
 from pyfiglet import Figlet
 import folium
+import bs4, requests
+
+s = requests.get('https://2ip.ua/ru/')
+
+b = bs4.BeautifulSoup(s.text, "html.parser")
+
+a = b.select(" .ipblockgradient .ip")[0].getText()
 
 
 def get_info_by_ip(ip='127.0.0.1'):
@@ -33,6 +40,7 @@ def get_info_by_ip(ip='127.0.0.1'):
 def main():
     preview_text = Figlet(font='slant')
     print(preview_text.renderText('IP INFO'))
+    print("Your ip:", a)
     ip = input('Please enter a target IP: ')
 
     get_info_by_ip(ip=ip)

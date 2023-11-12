@@ -79,7 +79,8 @@ def main():
     messagebox.showinfo("IP", f"Ваш IP: {a}")
     ip = input('Please enter a target IP: ')
     get_info_by_ip(ip=ip)
-    cur.execute(f"INSERT INTO ip_list (ip) VALUES ('{a}');")
+    # cur.execute("CREATE TABLE ip_list (ip TEXT);")
+    cur.execute(f"INSERT INTO ip_list (ip) VALUES ('{ip}');")
     connection.commit()
     connection.close()
     up_id = last_update(url)['update_id']

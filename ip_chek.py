@@ -66,6 +66,7 @@ def get_info_by_ip(ip='127.0.0.1'):
             '[Region Name]': response.get('regionName'),
             '[City]': response.get('city'),
             '[ZIP]': response.get('zip'),
+            '[TimeZone]': response.get('timezone'),
             '[Lat]': response.get('lat'),
             '[Lon]': response.get('lon'),
         }

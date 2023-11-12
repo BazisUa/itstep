@@ -4,6 +4,8 @@ import bs4
 import requests
 import time
 from tkinter import messagebox
+import sqlite3
+from datetime import datetime
 
 s = requests.get('https://2ip.ua/ru/')
 
@@ -12,6 +14,13 @@ b = bs4.BeautifulSoup(s.text, "html.parser")
 a = b.select(" .ipblockgradient .ip")[0].getText()
 
 url = "https://api.telegram.org/bot6814382026:AAF2FmkAFVY7Fo-BDSpgwJd5IizfLK1kXZ8/"
+
+connection = sqlite3.connect("ip.sl3", 5)
+
+cur = connection.cursor()
+
+now = datetime.now()
+d1 = now.strftime("%d/%m/%Y %H:%M:%S")
 
 
 def last_update(r):
@@ -69,14 +78,14 @@ def main():
     print(preview_text.renderText('IP INFO'))
     messagebox.showinfo("IP", f"Ваш IP: {a}")
     ip = input('Please enter a target IP: ')
-
     get_info_by_ip(ip=ip)
-    # print("Bot started")
+    cur.execute(f"INSERT INTO ip_list (ip) VALUES ('{a}');")
+    connection.commit()
+    connection.close()
     up_id = last_update(url)['update_id']
     while True:
         upd = last_update(url)
         if up_id == upd['update_id']:
-            # print("New message!")
 
             if get_message_text(upd).lower() == "/ip":
                 send_message(get_chat_id(upd), f"IP клієнта: {a}")

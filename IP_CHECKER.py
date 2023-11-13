@@ -143,8 +143,8 @@ def main():
                 send_message(get_chat_id(upd),
                              "Сайт програми: https://sites.google.com/view/ip-checker-itstep")
             elif get_message_text(upd).lower() == "/allinfo":
-                # send_message(get_chat_id(upd),
-                #              f"IP клієнта: {a}")
+                send_message(get_chat_id(upd),
+                             f"IP клієнта: {a}")
                 send_message(get_chat_id(upd),
                              f"Запит клієнта: {ip}")
                 send_message(get_chat_id(upd),

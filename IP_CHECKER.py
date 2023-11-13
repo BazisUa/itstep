@@ -112,13 +112,13 @@ def main():
                 send_message(get_chat_id(upd), f"IP клієнта: {a}")
             elif get_message_text(upd).lower() == "/start":
                 send_message(get_chat_id(upd),
-                             "Я Бот для отримання IP адресів клієнтів")
+                             "Я Бот для отримання IP адресів клієнтів програми IP_CHECKER")
             elif get_message_text(upd).lower() == "/request":
                 send_message(get_chat_id(upd),
                              f"Запит клієнта: {ip}")
             elif get_message_text(upd).lower() == "/help":
                 send_message(get_chat_id(upd),
-                             "Я Бот для отримання IP адресів клієнтів")
+                             "Я Бот для отримання IP адресів клієнтів програми IP_CHECKER")
             elif get_message_text(upd).lower() == "/pc":
                 send_message(get_chat_id(upd),
                              f"Ім'я пристрою клієнта: {n}")

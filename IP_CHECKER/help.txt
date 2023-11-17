@@ -1,0 +1,2 @@
+site: https://sites.google.com/view/ip-checker-itstep
+bot: https://t.me/IPcheckerBazisBot

